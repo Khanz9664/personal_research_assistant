@@ -4,23 +4,38 @@ import os
 
 # Add the parent directory to the system path to import orchestrator
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
+# Import the agent orchestration function
 from orchestrator.orchestrator import run_agent
 
+# Initialize Flask application
 app = Flask(__name__)
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    report = ""
+    """
+    Renders the main page with a form to input a research prompt.
+    If the form is submitted, it calls `run_agent` to process the prompt
+    and generate a report.
+    
+    Returns:
+        HTML: A page with the form and the resulting research report.
+    """
+    report = ""  # Initialize an empty report
+    
+    # If the form is submitted, process the input prompt
     if request.method == 'POST':
         prompt = request.form['prompt']
-        report = run_agent(prompt)
-    
+        report = run_agent(prompt)  # Generate a report using the agent
+
+    # Render the HTML page with Bootstrap styling and the generated report
     return render_template_string('''
         <!DOCTYPE html>
         <html lang="en">
         <head>
             <meta charset="UTF-8">
             <title>Personal Research Assistant</title>
+            <!-- Include Bootstrap and Google Fonts -->
             <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
             <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
             <style>
@@ -88,12 +103,15 @@ def index():
         <body>
             <div class="container">
                 <h2>🔍 Personal Research Assistant</h2>
+                <!-- Research form -->
                 <form method="post">
                     <div class="input-group mb-3">
                         <input type="text" name="prompt" class="form-control" placeholder="Enter your research topic..." required>
                         <button class="btn btn-primary" type="submit">Research</button>
                     </div>
                 </form>
+
+                <!-- Display the report if available -->
                 {% if report %}
                 <div class="result-box">
                     {{ report }}
@@ -104,6 +122,7 @@ def index():
         </html>
     ''', report=report)
 
+# Run the Flask app in debug mode
 if __name__ == '__main__':
     app.run(debug=True)
 
