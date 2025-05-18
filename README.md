@@ -89,7 +89,13 @@ personal_research_assistant/
   ```
   - Follow the on-screen prompts to interact with the assistant.
 
-📬 Contact
+
+# 👤 Author
+
+**Shahid Ul Islam**  
+_Machine Learning & Data Science Enthusiast_
+
+
 
 
 
