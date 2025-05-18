@@ -8,3 +8,4 @@ class Memory:
     def recall_all(self):
         return self.data
 
+

@@ -7,7 +7,7 @@ def scrape_page_content(url):
         soup = BeautifulSoup(response.text, "html.parser")
         paragraphs = soup.find_all("p")
         text = " ".join([p.get_text() for p in paragraphs])
-        return text[:1000]  # Limit to 1000 chars
+        return text[:3000]  # Limit to 1000 chars
     except:
         return ""
 
