@@ -1,13 +1,7 @@
-def should_continue(task_results):
-    """
-    Determines whether the process should continue based on the number of task results.
-
-    Parameters:
-        task_results (list): A list containing the results of completed tasks.
-
-    Returns:
-        bool: True if fewer than 3 results exist (indicating more work is needed),
-              False otherwise.
-    """
-    return len(task_results) < 3
-
+def should_continue(memory_data, urgency):
+    content_count = len(memory_data)
+    if urgency == "high":
+        return content_count < 2
+    elif urgency == "medium":
+        return content_count < 4
+    return content_count < 5

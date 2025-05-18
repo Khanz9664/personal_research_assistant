@@ -1,40 +1,30 @@
-def evaluate_sources(sources):
-    """
-    Filters a list of source dictionaries to identify credible ones based on 
-    domain names and keywords in the title.
-
-    Parameters:
-        sources (list): A list of dictionaries, each representing a source 
-                        with at least 'link' and 'title' keys.
-
-    Returns:
-        list: A list of sources deemed credible.
-    """
+def evaluate_sources(sources, domain):
+    credibility_rules = {
+        "general": {
+            "domains": [".edu", ".gov", "wikipedia.org", "nature.com"],
+            "keywords": ["study", "research", "report", "analysis"]
+        },
+        "medical": {
+            "domains": ["nih.gov", "who.int", "pubmed.ncbi.nlm.nih.gov"],
+            "keywords": ["clinical trial", "peer-reviewed", "meta-analysis"]
+        },
+        "legal": {
+            "domains": ["courtlistener.com", "supremecourt.gov", ".gov"],
+            "keywords": ["opinion", "ruling", "statute"]
+        }
+    }
+    
+    rules = credibility_rules.get(domain, credibility_rules["general"])
     credible = []
-
+    
     for source in sources:
-        # Extract and normalize the link and title for easier comparison
-        url = source.get("link", "").lower()
-        title = source.get("title", "").lower()
-
-        # List of domains and TLDs that are generally considered reliable
-        credible_domains = [
-            "wikipedia.org", "nature.com", "sciencedirect.com",
-            "jstor.org", "nasa.gov", "nih.gov", ".edu", ".gov"
-        ]
-
-        # Keywords that typically indicate scholarly or serious content
-        credible_keywords = [
-            "research", "study", "report", "analysis", "journal", "whitepaper"
-        ]
-
-        # If the source URL contains a trusted domain, consider it credible
-        if any(domain in url for domain in credible_domains):
+        url = source["link"].lower()
+        title = source["title"].lower()
+        
+        domain_match = any(d in url for d in rules["domains"])
+        keyword_match = any(k in title for k in rules["keywords"])
+        
+        if domain_match or keyword_match:
             credible.append(source)
-
-        # Alternatively, if the title includes keywords suggesting credibility
-        elif any(keyword in title for keyword in credible_keywords):
-            credible.append(source)
-
-    return credible
-
+    
+    return credible[:5]  # Return top 5 credible sources

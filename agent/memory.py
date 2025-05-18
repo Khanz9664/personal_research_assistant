@@ -1,27 +1,16 @@
 class Memory:
-    """
-    A simple class to store and recall pieces of information (memory).
-    """
-
     def __init__(self):
-        # Initialize an empty list to store memory content
         self.data = []
+        self.source_metadata = []
 
-    def store(self, content):
-        """
-        Stores a new piece of content in memory.
-
-        Parameters:
-            content (any): The item to store in memory.
-        """
+    def store(self, content, metadata):
         self.data.append(content)
+        self.source_metadata.append({
+            "title": metadata.get("title", "Unknown"),
+            "url": metadata.get("url", ""),
+            "author": metadata.get("author", "Unknown"),
+            "date": metadata.get("date", "")
+        })
 
     def recall_all(self):
-        """
-        Retrieves all stored content from memory.
-
-        Returns:
-            list: A list of all stored items.
-        """
-        return self.data
-
+        return list(zip(self.data, self.source_metadata))
