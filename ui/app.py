@@ -45,7 +45,7 @@ def index():
                         <select name="domain" class="form-select">
                             <option value="general">General</option>
                             <option value="machine learning">ML</option>
-                            <option value="deep learning">DL</option>
+                            <option value="computer science">Computer Science</option>
                         </select>
                         <select name="urgency" class="form-select">
                             <option value="low">Low</option>
