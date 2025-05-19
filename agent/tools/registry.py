@@ -7,7 +7,10 @@ from .search import (
     ArxivSearch,
     SemanticScholarSearch,
     GoogleScholarSearch,
-    SerpAPISearch
+    SerpAPISearch,
+    PapersWithCodeSearch,
+    HuggingFaceSearch,
+    GitHubSearch
 )
 from .content import (
     PDFExtractor,
@@ -29,6 +32,9 @@ class ToolRegistry:
             "semantic_scholar": SemanticScholarSearch(),
             "google_scholar": GoogleScholarSearch(),
             "web_search": SerpAPISearch(),
+            "papers_with_code": PapersWithCodeSearch(),
+            "huggingface": HuggingFaceSearch(),
+            "github": GitHubSearch(),
             
             # Content extraction
             "pdf": PDFExtractor(),
@@ -46,11 +52,17 @@ class ToolRegistry:
         
     def get_tool_for_task(self, task: str) -> BaseTool:
         """Select most appropriate tool based on task description."""
-        if "arxiv" in task.lower():
+        task_lower = task.lower()
+        
+        if "implementation" in task_lower or "code" in task_lower:
+            return self.tools["papers_with_code"]
+        elif "model" in task_lower or "dataset" in task_lower:
+            return self.tools["huggingface"]
+        elif "github" in task_lower or "repository" in task_lower:
+            return self.tools["github"]
+        elif "arxiv" in task_lower:
             return self.tools["arxiv"]
-        elif "code" in task.lower():
-            return self.tools["code"]
-        elif "data" in task.lower():
+        elif "data" in task_lower:
             return self.tools["data_analyzer"]
         else:
             return self.tools["web_search"]
