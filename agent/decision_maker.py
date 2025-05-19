@@ -4,14 +4,14 @@ def evaluate_sources(sources, domain):
             "domains": [".edu", ".gov", "wikipedia.org", "nature.com"],
             "keywords": ["study", "research", "report", "analysis"]
         },
-        "medical": {
-            "domains": ["nih.gov", "who.int", "pubmed.ncbi.nlm.nih.gov"],
-            "keywords": ["clinical trial", "peer-reviewed", "meta-analysis"]
+        "machine_learning": {
+            "domains": ["arxiv.org", "paperswithcode.com", "nips.cc", "openreview.net"],
+            "keywords": ["neural network", "transformer", "gradient descent", "benchmark", "loss function"]
         },
-        "legal": {
-            "domains": ["courtlistener.com", "supremecourt.gov", ".gov"],
-            "keywords": ["opinion", "ruling", "statute"]
-        }
+       "computer_science": {
+            "domains": ["acm.org", "ieee.org", "usenix.org", "cs.stanford.edu"],
+            "keywords": ["algorithm", "data structure", "computational complexity", "distributed systems", "programming language"]
+       }
     }
     
     rules = credibility_rules.get(domain, credibility_rules["general"])
