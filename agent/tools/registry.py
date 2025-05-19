@@ -5,7 +5,6 @@ from typing import Dict, Type
 from .base import BaseTool
 from .search import (
     ArxivSearch,
-    SemanticScholarSearch,
     GoogleScholarSearch,
     SerpAPISearch,
     PapersWithCodeSearch,
@@ -29,7 +28,6 @@ class ToolRegistry:
         self.tools: Dict[str, BaseTool] = {
             # Search tools
             "arxiv": ArxivSearch(),
-            "semantic_scholar": SemanticScholarSearch(),
             "google_scholar": GoogleScholarSearch(),
             "web_search": SerpAPISearch(),
             "papers_with_code": PapersWithCodeSearch(),
@@ -60,7 +58,7 @@ class ToolRegistry:
             return self.tools["huggingface"]
         elif "github" in task_lower or "repository" in task_lower:
             return self.tools["github"]
-        elif "arxiv" in task_lower:
+        elif "arxiv" in task_lower or "paper" in task_lower:
             return self.tools["arxiv"]
         elif "data" in task_lower:
             return self.tools["data_analyzer"]
